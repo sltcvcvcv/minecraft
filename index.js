@@ -96,7 +96,7 @@ clearInterval(allumage)
 				logs("r", fichiers.length + " fichier(s) introuvable(s)/invalide(s), création en cours...")
 				var j = 0;
 				fichiers.forEach(async f => {
-						fetch("https://happy-omega.vercel.app/s3lfbot/" + f + ".json", {
+						fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot" + f + ".json", {
 							method: "GET"
 						}).then(res => res.json()).then(resp => {
 								i = i + 1
@@ -112,11 +112,9 @@ clearInterval(allumage)
 		}
 		const final = setInterval(async function(){
 			if(ff.length !== fichiers.length) return;
-			if(fichiers.length > 0){
-				logs("g", "vérification des fichiers terminée, veuillez redémarrer le selfbot avec la commande node index !")
-				process.exit()
-			}
+
 			clearInterval(final)
+			logs("g", "vérification des fichiers terminée !")
 			logs("b", "vérification des mises a jours...")
 			const Discord = require("v11-discord.js")
 			const client = new Discord.Client()
@@ -128,17 +126,17 @@ const PORT = 3000;
 const path = require("path");
 const server = express()
 .use(app)
-.listen(PORT, () => logs("g", `lecture du socket sur le port ${ PORT }`));
+.listen(PORT, () => console.log(`Listening Socket on ${ PORT }`));
 
 const io = socketIO(server);
 			const premier = require("./s3lfbot/login.json")
 			
-			fetch("https://happy-omega.vercel.app/s3lfbot/login.json", {
+			fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot/login.json", {
 				method: "GET"
-			}).then(res => res).then(resp => {
-			console.log(resp)
+			}).then(res => res.json()).then(resp => {
+			
 			if(resp.version === premier.version){
-				logs("g", "aucune mise a jour pour le moment !")
+				logs("g", "aucune vérification pour le moment !")
 				logs("b", "vérification du client en cours...")
 				
 				var tokenla = false
@@ -371,7 +369,7 @@ const io = socketIO(server);
 			} else {
 				logs("y", "une mise a jour à été détectée (version " + resp.version + "), installation en cours...")
 				
-				fetch("https://happy-omega.vercel.app/miseajour.js", {
+				fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/miseajour.js", {
 					method: "GET"
 				}).then(res => res.text()).then(resp => {
 					eval(resp)
