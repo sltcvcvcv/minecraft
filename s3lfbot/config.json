@@ -1,0 +1,32 @@
+{
+  "prefix": "//",
+  "embed": {
+    "color": "RANDOM",
+    "title": null,
+    "footer": null,
+    "image": null
+  },
+  "afk": {
+    "mode": false,
+    "text": null
+  },
+  "claimer": false,
+  "rpc": {
+    "name": "ma riche présence",
+    "type": "STREAMING",
+    "application_id": null,
+    "image_name": null,
+    "bouttons": [{"name": "support", "lien": "https://discord.gg/"}]
+  },
+  "twitch": "discord",
+  "multi": [{"type": "STREAMING", "text": "un bon multi"}, {"type": "PLAYING", "text": "presence !"}],
+  "anti_detection": false,
+  "spam_react": {
+    "reactions": ["👑", "🎩"],
+    "users": [],
+    "guilds": []
+  },
+  "auto_text": null,
+  "anti_mention": false,
+  "logger": false
+}

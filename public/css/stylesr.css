@@ -1,0 +1,167 @@
+/* latin-ext */
+@font-face {
+    font-family: 'Capriola';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/capriola/v8/wXKoE3YSppcvo1PDlk_1JeESnA.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  /* latin */
+  @font-face {
+    font-family: 'Capriola';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/capriola/v8/wXKoE3YSppcvo1PDlk_7JeE.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  p {
+    color: white;
+}
+
+.logo {}
+
+.logo a {
+display: inline-block;
+}
+
+.logo a img {
+max-height: 100%;
+}
+.header-area {
+position: fixed;
+left: 0;
+top: 0;
+width: 100%;
+z-index: 998;
+background-color: #2e2f30;
+}
+
+h1 {
+color:#fff; 
+text-align: center;
+margin-top: 0;  
+}
+
+.outerDiv
+  {
+
+    height: 400px;
+    width: 950px;
+    margin: 0px auto;
+    padding: 5px;
+  }
+  .leftDiv
+  {
+    height: 400px;
+    width: 48%;
+    float: left;
+  }
+  .rightDiv
+  {
+    height: 400px;
+    width: 48%;
+    float: right;
+  }
+
+  body {
+    background-color: #343a40;
+    margin: 0;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+
+div+div {
+    margin-top: 1em;
+}
+
+label span {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+}
+
+input, textarea {
+    font: 1em sans-serif;
+    width: 250px;
+    box-sizing: border-box;
+    border: 1px solid #999;
+}
+
+input[type=checkbox], input[type=radio] {
+    width: auto;
+    border: none;
+}
+
+input:focus, textarea:focus {
+    border-color: #000;
+}
+
+textarea {
+    vertical-align: top;
+    height: 5em;
+    resize: vertical;
+}
+
+fieldset {
+    width: 250px;
+    box-sizing: border-box;
+    margin-left: 136px;
+    border: 1px solid #999;
+}
+
+button {
+    margin: 20px 0 0 124px;
+}
+
+label.config {
+  margin-top: 40px;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  position:unset;
+  padding-left: 150px;
+  padding-bottom: 20px;
+}
+
+label {
+  position: relative;
+  color: white;
+}
+
+label em {
+  position: absolute;
+  right: 5px;
+  top: 20px;
+}
+
+.ntm[type="checkbox"] {
+  border-radius: 0.25em;
+}
+
+form p label {
+  padding-right: 100px;
+}

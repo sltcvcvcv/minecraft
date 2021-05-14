@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/responsive.css">
+    <link rel="stylesheet" href="/bootstrap.css">
+        <link rel="stylesheet" href="/stylesr.css">
+
+        
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <title>Happy | Selfbot</title>
+</head>
+
+
+<body">
+
+    <header id="header">
+        <div class="header-area">
+        <div class="container">
+        <div class="row">
+        <div class="menu-area">
+ 
+     
+          <h1 id="textcenter">Happy</h1>
+    
+   
+
+        </div>
+        </div>
+        </div>
+        </div>
+        </header>
+
+        <div class="outerDiv">
+            <div class="leftDiv">
+                <p style="color: white; padding-top: 80px;">Pseudo Discord : <%= client.user.tag %></p>
+            </div>
+            <div class="rightDiv">
+                <label class="config">Configuration du bot</label>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="prefix" class="form-label">Prefix</label>
+                        <input type="text" class="form-control" id="prefix" placeholder="Ton plus beau prefix 🤪">
+                      </div>
+                    <div class="mb-3">
+                        <label for="twitch" class="form-label">Twitch</label>
+                        <input type="text" class="form-control" id="twitch" placeholder="Ton twitch 🤪">
+                      </div>
+                      <p>
+                        <input type="checkbox" class="ntm" id="claimer">
+                        <label class="form-check-label" for="claimer">Claimer</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" class="ntm" id="nomention">
+                        <label class="form-check-label" for="nomention">Anti-Mention</label>
+                      </p>
+                      <p>
+                        <input type="checkbox" class="ntm" id="loggercheckbox" onclick="loggeraction()">
+                   
+                            <label class="form-check-label" for="logger" id="logger">Logger</label>
+                       
+                        
+                      </p>  
+
+                      
+
+                      <div class="mb-3"></div>
+                </form>
+
+
+            </div>
+        </div>
+
+    
+
+
+        <button class="btn btn-primary" type="submit" onclick=""> Button</button>
+</body>
+    
+
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/bootstrap.js"></script>
+
+<script type="text/javascript">  
+function loggeraction() {
+alert(document.getElementById("loggercheckbox").checked)  
+}
+
+$(function() {
+ //   const $ntm = $('.ntm'); 
+    
+    var socket = io.connect('http://localhost:3000');
+ /*   socket.on('connect', function(data) {
+       
+    });*/
+
+ /*  socket.on("ccjacqob", function(data) {
+        document.getElementById("textcenter").innerHTML = `<h1 id="textcenter">` + data + "</h1>"
+    })*/
+});
+
+function trucstyle() {
+    alert("ntm")
+}
+
+
+
+
+
+   </script>
+</html>
