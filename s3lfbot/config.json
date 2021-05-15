@@ -16,13 +16,30 @@
     "type": "STREAMING",
     "application_id": null,
     "image_name": null,
-    "bouttons": [{"name": "support", "lien": "https://discord.gg/"}]
+    "bouttons": [
+      {
+        "name": "support",
+        "lien": "https://discord.gg/"
+      }
+    ]
   },
   "twitch": "discord",
-  "multi": [{"type": "STREAMING", "text": "un bon multi"}, {"type": "PLAYING", "text": "presence !"}],
+  "multi": [
+    {
+      "type": "STREAMING",
+      "text": "un bon multi"
+    },
+    {
+      "type": "PLAYING",
+      "text": "presence !"
+    }
+  ],
   "anti_detection": false,
   "spam_react": {
-    "reactions": ["👑", "🎩"],
+    "reactions": [
+      "👑",
+      "🎩"
+    ],
     "users": [],
     "guilds": []
   },

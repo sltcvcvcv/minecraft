@@ -42,11 +42,11 @@
                 <form method="POST">
                     <div class="mb-3">
                         <label for="prefix" class="form-label">Prefix</label>
-                        <input type="text" class="form-control" id="prefix" placeholder="Ton plus beau prefix 🤪">
+                        <input type="text" class="form-control" id="prefix" value=<%= config.prefix %> placeholder="Ton plus beau prefix 🤪">
                       </div>
                     <div class="mb-3">
                         <label for="twitch" class="form-label">Twitch</label>
-                        <input type="text" class="form-control" id="twitch" placeholder="Ton twitch 🤪">
+                        <input type="text" class="form-control" id="twitch" value=<%= config.twitch %> placeholder="Ton twitch 🤪">
                       </div>
                       <p>
                         <input type="checkbox" class="ntm" id="claimer">
@@ -58,7 +58,6 @@
                       </p>
                       <p>
                         <input type="checkbox" class="ntm" id="loggercheckbox" onclick="loggeraction()">
-                   
                             <label class="form-check-label" for="logger" id="logger">Logger</label>
                        
                         
@@ -87,14 +86,19 @@
 <script src="/bootstrap.js"></script>
 
 <script type="text/javascript">  
-function loggeraction() {
-alert(document.getElementById("loggercheckbox").checked)  
-}
 
-$(function() {
- //   const $ntm = $('.ntm'); 
-    
-    var socket = io.connect('http://localhost:3000');
+
+const socket = io("http://localhost:3000");
+
+    function loggeraction() {
+    if(document.getElementById("loggercheckbox").checked) {
+      socket.emit("logger", "checked");
+    } else {
+      socket.emit("logger", "unchecked");
+    }
+  }
+
+
  /*   socket.on('connect', function(data) {
        
     });*/
@@ -102,11 +106,7 @@ $(function() {
  /*  socket.on("ccjacqob", function(data) {
         document.getElementById("textcenter").innerHTML = `<h1 id="textcenter">` + data + "</h1>"
     })*/
-});
 
-function trucstyle() {
-    alert("ntm")
-}
 
 
 

@@ -5,10 +5,5 @@ module.exports = {
 	usage: "<prefix>embed (text)",
 	description: "crée un joli embed !",
 	permissions: ["EMBED_LINKS"],
-	async execute(client, msg, args, se){
-		const embed = se()
-		.setDescription(args.join(" ") || "voilà un joli exemple d'embed")
-		
-		msg.edit(embed)
-	}
+	async execute(client, msg, args, se) { msg.edit(se().setDescription(args.join(" ") || "voilà un joli exemple d'embed")) }
 }

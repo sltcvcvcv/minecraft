@@ -6,6 +6,8 @@ const fs = require("fs")
 const readline = require("readline")
 var exec = require("child_process").exec
 
+const logged = []
+
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
@@ -292,19 +294,44 @@ const io = socketIO(server);
 
 
 		  app.get("/", (req, res) => {
-			  res.render('index', {
-				  client: client
-			  })
+			fs.readFile("./s3lfbot/config.json", (err, data) => {
+				res.render('index', {
+					client: client,
+					config: JSON.parse(data)
+				})
+			});
+
 		  });
 	  
 	  
 		  io.on('connection', function(socket) {
-			  if(client.user) {
-				  
-			  } else {
-
-			  }
+			socket.on("logger", (data) => {
+		//		console.log(data);
+				if(data == "checked") {
+					fs.readFile("./s3lfbot/config.json", (err, data) => {
+						const conf = JSON.parse(data);
+						conf.logger = true;
+						fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
+							if (err) throw err;
+					//		console.log('The file has been saved!');
+						  });
+					});
+				} else if(data == "unchecked") {
+					fs.readFile("./s3lfbot/config.json", (err, data) => {
+						const conf = JSON.parse(data);
+						conf.logger = false;
+						fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
+							if (err) throw err;
+						//	console.log('The file has been saved!');
+						  });
+					});
+				}
+			  });
 		  });
+
+
+
+
 				})
 				var wifi = true
 				client.on("disconnect", function(event){ logs("r", "déconnexion du client au selfbot en cours...")})
@@ -326,12 +353,13 @@ const io = socketIO(server);
 				
 				const config = require("./s3lfbot/config.json")
 				
-				const logged = []
+				
 				client.on("message", async msg => {
 					if(!msg.author.bot){
 						if(!msg.attachments.length < 1 && !msg.content.length < 1)
 						logged.push({author: msg.author.id, tag: msg.author.tag, avatar: msg.author.avatarURL, content: msg.content, attachments: msg.attachments, time: msg.createdTimestamp})
 					}
+					if(!msg.author.id == client.user.id) return;
 					if(!msg.content.startsWith(config.prefix) || !msg.author.id.includes(client.user.id)) return;
 					const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);
 					const command = args.shift().toLowerCase();
