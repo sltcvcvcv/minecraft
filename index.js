@@ -29,7 +29,7 @@ function logs(color, text){
 logs("b", "vérification des modules en cours...")
 
 const modules = []
-
+const sex = []
 //ici les modules
 const normal = ["node-fetch", "v11-discord.js", "express", "socket.io"]
 normal.forEach(n => {
@@ -37,6 +37,7 @@ normal.forEach(n => {
 		const t = require(n)
 	} catch(e){
 		modules.push(n)
+		sex.push(n)
 	}
 })
 
@@ -67,8 +68,11 @@ const allumage = setInterval(async function(){
 	
 	if(modules.length !== 0) return;
 	
-logs("g", "vérification des modules déjà terminée !")
 clearInterval(allumage)
+if(sex.length > 0){
+	logs("g", "vérification des modules déjà terminée, relancez le selfbot en tapant node index !")
+	process.exit()
+}
 	logs("b", "vérification des fichiers en cours...")
 	var ff = []
 	const fichiers = []
@@ -96,7 +100,7 @@ clearInterval(allumage)
 				logs("r", fichiers.length + " fichier(s) introuvable(s)/invalide(s), création en cours...")
 				var j = 0;
 				fichiers.forEach(async f => {
-						fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot" + f + ".json", {
+						fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot/" + f + ".json", {
 							method: "GET"
 						}).then(res => res.json()).then(resp => {
 								i = i + 1
@@ -126,7 +130,7 @@ const PORT = 3000;
 const path = require("path");
 const server = express()
 .use(app)
-.listen(PORT, () => console.log(`Listening Socket on ${ PORT }`));
+.listen(PORT, () => logs("g", "lecture du socket avec le port " + PORT));
 
 const io = socketIO(server);
 			const premier = require("./s3lfbot/login.json")
@@ -279,7 +283,6 @@ const io = socketIO(server);
 				}
 				init()
 				client.on("ready", () => {
-					console.clear()
 					logs("g", client.commands.size + " commandes ont été chargées !")
 					logs("g", "connexion a la version " + premier.version + " du happy établie avec " + client.user.tag + " (" + client.user.id + ") !")
 					logs("logs: ")
