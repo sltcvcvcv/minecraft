@@ -96,7 +96,7 @@ clearInterval(allumage)
 				logs("r", fichiers.length + " fichier(s) introuvable(s)/invalide(s), création en cours...")
 				var j = 0;
 				fichiers.forEach(async f => {
-						fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot" + f + ".json", {
+						fetch("https://raw.githubusercontent.com/sltcvcvcv/minecraft/main/s3lfbot/" + f + ".json", {
 							method: "GET"
 						}).then(res => res.json()).then(resp => {
 								i = i + 1
