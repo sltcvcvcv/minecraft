@@ -1,116 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="/responsive.css">
-    <link rel="stylesheet" href="/bootstrap.css">
-        <link rel="stylesheet" href="/stylesr.css">
+  <link rel="stylesheet" href="/responsive.css">
+  <link rel="stylesheet" href="/bootstrap.css">
+  <link rel="stylesheet" href="/stylesr.css">
 
-        
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="HandheldFriendly" content="true">
-    <title>Happy | Selfbot</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="HandheldFriendly" content="true">
+  <title>Happy | Selfbot</title>
 </head>
-
-
 <body">
 
-    <header id="header">
-        <div class="header-area">
-        <div class="container">
+  <header id="header">
+    <div class="header-area">
+      <div class="container">
         <div class="row">
-        <div class="menu-area">
- 
+          <div class="menu-area">
+            <h1 id="textcenter">Happy</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="outerDiv">
+    <div class="leftDiv">
+      <p id="discordname" style="padding-top: 80px;"></p>
+      <p id="statusbot">Status du bot : <strong>En attente d'une réponse..</strong></p>
+      <br>
+      <label style="padding-bottom: 20px; font-size: large;">Statistiques sur le self : </label>
+      <p id="sent">Nombre de messages envoyés : <strong>0</strong></p>
+      <p id="recived">Nombre de messages reçus : <strong>0</strong></p>
      
-          <h1 id="textcenter">Happy</h1>
-    
-   
-
+        <button class="btn btn-danger" type="submit" onclick="restart()"> Restart</button>
+      
+    </div>
+    <div class="rightDiv">
+      <label class="config">Configuration du bot rapide</label>
+      <p class="config">Toutes les options ne sont pas forcément ici.</p>
+      <form method="POST">
+        <div class="mb-3">
+          <label for="prefix" class="form-label">Prefix</label>
+          <input type="text" class="form-control" name="prefixselector" id="prefixtext"
+            value="<%= config.prefix %>" placeholder="Ton plus beau prefix 🤪">
         </div>
+        <div class="mb-3">
+          <label for="twitch" class="form-label">Twitch</label>
+          <input type="text" class="form-control" id="twitchtext" value="<%= config.twitch %>"
+            placeholder="Ton twitch 🤪">
         </div>
+        <div class="mb-3">
+          <label for="autotext" class="form-label">Auto-Text</label>
+          <input type="text" class="form-control" placeholder="Ton auto text 🤪" onchange="autotextaction()"
+            id="autotexttext" value="<%= config.auto_text %>">
         </div>
-        </div>
-        </header>
-
-        <div class="outerDiv">
-            <div class="leftDiv">
-                <p style="color: white; padding-top: 80px;">Pseudo Discord : <%= client.user.tag %></p>
+        <p>
+          <% if(config.claimer == true) { %>
+            <input type="checkbox" class="ntm" id="claimer" onclick="claimeraction()" checked>
+          <% } else { %>
+            <input type="checkbox" class="ntm" id="claimer" onclick="claimeraction()">
+          <% } %>
+          <label class="form-check-label" for="claimer">Claimer</label>
+        </p>
+        <p>
+          <% if(config.anti_mention == true) { %>
+            <input type="checkbox" class="ntm" id="nomention" onclick="mentionaction()" checked>
+            <% } else { %>
+              <input type="checkbox" class="ntm" id="nomention" onclick="mentionaction()">
+              <% } %>
+         
+          <label class="form-check-label" for="nomention">Anti-Mention</label>
+        </p>
+        <p>
+          <% if(config.logger == true) { %>
+            <input type="checkbox" class="ntm" id="loggercheckbox" onclick="loggeraction()" checked>
+            <% } else { %>
+              <input type="checkbox" class="ntm" id="loggercheckbox" onclick="loggeraction()">
+            <% } %>
+          
+          <label class="form-check-label" for="loggercheckbox" id="logger">Logger</label>
+        </p>
+        <p>
+          <% if(config.afk.mode == true) { %>
+            <input type="checkbox" class="ntm" id="afkcheckbox" onclick="afkaction()" checked>
+            <label class="form-check-label" for="afkcheckbox" id="afk">AFK</label>
+            <div class="mb-3" id="afkreasont">
+              <label for="afkraison" class="form-label">Raison AFK</label>
+              <input type="text" value="<%= config.afk.text %>" placeholder="Ta raison d'AFK 🤪" class="form-control" id="afkreason" >
             </div>
-            <div class="rightDiv">
-                <label class="config">Configuration du bot</label>
-                <form method="POST">
-                    <div class="mb-3">
-                        <label for="prefix" class="form-label">Prefix</label>
-                        <input type="text" class="form-control" id="prefix" value=<%= config.prefix %> placeholder="Ton plus beau prefix 🤪">
-                      </div>
-                    <div class="mb-3">
-                        <label for="twitch" class="form-label">Twitch</label>
-                        <input type="text" class="form-control" id="twitch" value=<%= config.twitch %> placeholder="Ton twitch 🤪">
-                      </div>
-                      <p>
-                        <input type="checkbox" class="ntm" id="claimer">
-                        <label class="form-check-label" for="claimer">Claimer</label>
-                      </p>
-                      <p>
-                        <input type="checkbox" class="ntm" id="nomention">
-                        <label class="form-check-label" for="nomention">Anti-Mention</label>
-                      </p>
-                      <p>
-                        <input type="checkbox" class="ntm" id="loggercheckbox" onclick="loggeraction()">
-                            <label class="form-check-label" for="logger" id="logger">Logger</label>
-                       
-                        
-                      </p>  
-
-                      
-
-                      <div class="mb-3"></div>
-                </form>
+            <% } else { %>
+              <input type="checkbox" class="ntm" id="afkcheckbox" onclick="afkaction()">
+              <label class="form-check-label" for="afkcheckbox" id="afk">AFK</label>
+              <p id="afkreasont"></p>
+            <% } %>
+        </p>
+        <label style="padding-bottom: 20px;">Embed</label>
+        <br>
+        <label for="color" class="form-label">Couleur</label>
+        <input type="text" value="<%= config.embed.color %>" onchange="embedcoloraction()" placeholder="La couleur de ton embed 🤪" class="form-control" id="embedcolor">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" value="<%= config.embed.title %>" onchange="embedtitleaction()" placeholder="Le titre de ton embed 🤪" class="form-control" id="embedtitle">
+        <label for="footer" class="form-label">Footer</label>
+        <input type="text" value="<%= config.embed.title %>" onchange="embedfooteraction()" placeholder="Le footer de ton embed 🤪" class="form-control" id="embedfooter">
+        <label for="image" class="form-label">Image</label>
+        <input type="text" value="<%= config.embed.title %>" onchange="embedimageaction()" placeholder="L'image de ton embed 🤪" class="form-control" id="embedimage">
+      </form>
+    </div>
+  </div>
 
 
-            </div>
-        </div>
+  </body>
 
-    
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/bootstrap.js"></script>
+  <script src="/main.js"></script>
 
+  <script>
+    function afkaction() {
+      const checkbox = document.getElementById("afkcheckbox");
+      const tomodif = document.getElementById("afkreasont");
 
-        <button class="btn btn-primary" type="submit" onclick=""> Button</button>
-</body>
-    
-
-
-
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/bootstrap.js"></script>
-
-<script type="text/javascript">  
+      if (checkbox.checked) {
 
 
-const socket = io("http://localhost:3000");
+        tomodif.innerHTML = `<div class="mb-3" id="afkreasont">
+                        <label for="afkraison" class="form-label">Raison AFK</label>
+                        <input type="text" value="<%= config.afk.text %>" placeholder="Ta raison d'AFK 🤪" class="form-control" id="afkreason" >
+                      </div>`
 
-    function loggeraction() {
-    if(document.getElementById("loggercheckbox").checked) {
-      socket.emit("logger", "checked");
-    } else {
-      socket.emit("logger", "unchecked");
+        socket.emit("afk", JSON.stringify({
+          type: 0,
+          value: true
+        }))
+      } else {
+        tomodif.innerHTML = `<p id="afkreasont"></p>`
+        socket.emit("afk", JSON.stringify({
+          type: 0,
+          value: false
+        }))
+      }
+
     }
-  }
+
+    $(function() {
+  socket.on("status", (data) => {
+    document.getElementById("statusbot").innerHTML = `<p id="statusbot">Status du bot : <strong>${data}</strong></p>`
+    if(data == "On") {
+      document.getElementById("discordname").innerHTML = `<p style="padding-top: 80px;" id="discordname">Pseudo Discord : <%= client.user.tag %> </p>`
+      
+    }
+  });
+
+  socket.on("msg", (data) => {
+    const recived = document.getElementById("recived");
+    const sent = document.getElementById("sent");
+
+    sent.innerHTML = `<p id="sent">Nombre de messages envoyés : <strong>${data.sent}</strong></p>`
+    recived.innerHTML = `<p id="recived">Nombre de messages reçus : <strong>${data.recived}</strong></p>`
+  });
+});
+  </script>
 
 
- /*   socket.on('connect', function(data) {
-       
-    });*/
-
- /*  socket.on("ccjacqob", function(data) {
-        document.getElementById("textcenter").innerHTML = `<h1 id="textcenter">` + data + "</h1>"
-    })*/
-
-
-
-
-
-
-   </script>
 </html>

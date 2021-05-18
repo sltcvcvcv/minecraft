@@ -143,8 +143,14 @@ label.config {
   align-items: center;
   align-content: center;
   position:unset;
-  padding-left: 150px;
+  padding-left: 140px;
   padding-bottom: 20px;
+}
+p.config {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  padding-left: 25px;
 }
 
 label {
@@ -164,4 +170,8 @@ label em {
 
 form p label {
   padding-right: 100px;
+}
+
+.embed {
+  padding-bottom: 10px;
 }

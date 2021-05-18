@@ -1,14 +1,14 @@
 {
   "prefix": "//",
   "embed": {
-    "color": "RANDOM",
-    "title": null,
-    "footer": null,
-    "image": null
+    "color": "",
+    "title": "",
+    "footer": "",
+    "image": ""
   },
   "afk": {
     "mode": false,
-    "text": null
+    "text": "slt "
   },
   "claimer": false,
   "rpc": {
@@ -43,7 +43,7 @@
     "users": [],
     "guilds": []
   },
-  "auto_text": null,
+  "auto_text": "",
   "anti_mention": false,
   "logger": false
 }
