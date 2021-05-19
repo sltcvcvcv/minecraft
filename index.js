@@ -613,7 +613,7 @@ const allumage = setInterval(async function () {
 
 							}
 						}
-						cmd.execute(client, msg, args, se, config);
+						cmd.execute(client, msg, args, se, config, logs);
 					})
 				} else {
 					logs("y", "une mise a jour à été détectée (version " + resp.version + "), installation en cours...")
