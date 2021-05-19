@@ -326,6 +326,7 @@ const allumage = setInterval(async function () {
 					}
 					init()
 					client.on("ready", () => {
+						const conf = require("./s3lfbot/config.json")
 						logs("g", client.commands.size + " commandes ont été chargées !")
 						logs("g", "connexion a la version " + premier.version + " du happy établie avec " + client.user.tag + " (" + client.user.id + ") !")
 						logs("logs: ")
@@ -354,110 +355,95 @@ const allumage = setInterval(async function () {
 
 							socket.on("restart", (data) => {
 								if(data == "true") {
-									//TODO STP JACQOB CODE POUR RESTART JTE SUS
+									// le restart
 								}
 							});
 
 							socket.on("logger", (data) => {
 								//		console.log(data);
 								if (data == "checked") {
-									fs.readFile("./s3lfbot/config.json", (err, data) => {
-										const conf = JSON.parse(data);
 										conf.logger = true;
 										fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 											if (err) throw err;
 											//		console.log('The file has been saved!');
 										});
-									});
 								} else if (data == "unchecked") {
-									fs.readFile("./s3lfbot/config.json", (err, data) => {
-										const conf = JSON.parse(data);
 										conf.logger = false;
 										fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 											if (err) throw err;
 											//	console.log('The file has been saved!');
 										});
-									});
 								}
 							});
 							socket.on("prefix", (datasocket) => {
 			
-									fs.readFile("./s3lfbot/config.json", (err, data) => {
-										const conf = JSON.parse(data);
 										conf.prefix = datasocket;
 										fs.writeFile("./s3lfbot/config.json", JSON.stringify(conf, null, 2), (err) => {
 											if (err) throw err
 										});
-									});
+									
 								
 							});
 							socket.on("twitch", (datasocket) => {
 				
-									fs.readFile("./s3lfbot/config.json", (err, data) => {
-										const conf = JSON.parse(data);
+										
 										conf.twitch = datasocket;
 										fs.writeFile("./s3lfbot/config.json", JSON.stringify(conf, null, 2), (err) => {
 											if (err) throw err
 										});
-									});
 								
 							});
 							socket.on("autotext", (datas) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+									
 									conf.auto_text = datas;
 									fs.writeFile("./s3lfbot/config.json", JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err
 									});
-								});
+								
 
 							});
 							socket.on("mention", (data) => {
 								switch (data) {
 									case "checked":
-										fs.readFile("./s3lfbot/config.json", (err, data) => {
-											const conf = JSON.parse(data);
+										
 											conf.anti_mention = true;
 											fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 												if (err) throw err;
 												//		console.log('The file has been saved!');
 											});
-										});
+										
 										break;
 									case "unchecked":
-										fs.readFile("./s3lfbot/config.json", (err, data) => {
-											const conf = JSON.parse(data);
+										
 											conf.anti_mention = false;
 											fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 												if (err) throw err;
 												//	console.log('The file has been saved!');
 											});
-										});
+										
 										break;
 								}
 							});
 							socket.on("claimer", (data) => {
 								switch (data) {
 									case "checked":
-										fs.readFile("./s3lfbot/config.json", (err, data) => {
-											const conf = JSON.parse(data);
+										
 											conf.claimer = true;
 											fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 												if (err) throw err;
 												//		console.log('The file has been saved!');
 											});
-										});
+									
 										break;
 									case "unchecked":
-										fs.readFile("./s3lfbot/config.json", (err, data) => {
-											const conf = JSON.parse(data);
+										
 											conf.claimer = false;
 											fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 												if (err) throw err;
 												//	console.log('The file has been saved!');
 											});
-										});
+										
 										break;
 								}
 							});
@@ -465,74 +451,68 @@ const allumage = setInterval(async function () {
 							socket.on("afk", (data) => {
 								const datap = JSON.parse(data);
 								if (datap.type == 0) {
-									fs.readFile("./s3lfbot/config.json", (err, data) => {
-										const conf = JSON.parse(data);
+									
 										conf.afk.mode = datap.value;
 										fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 											if (err) throw err;
 											//	console.log('The file has been saved!');
 										});
-									});
+									
 								}
 							});
 							socket.on("afkreason", (datasocket) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+								
 									conf.afk.text = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
 										//	console.log('The file has been saved!');
 									});
-								});
+								
 
 							});
 							socket.on("embedcolor", (datasocket) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+								
 									conf.embed.color = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
 										//	console.log('The file has been saved!');
 									});
-								});
+								
 
 							});
 							socket.on("embedtitle", (datasocket) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+								
 									conf.embed.title = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
 										//	console.log('The file has been saved!');
 									});
-								});
+								
 
 							});
 							socket.on("embedfooter", (datasocket) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+								
 									conf.embed.footer = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
 										//	console.log('The file has been saved!');
 									});
-								});
+								
 
 							});
 							socket.on("embedimage", (datasocket) => {
 
-								fs.readFile("./s3lfbot/config.json", (err, data) => {
-									const conf = JSON.parse(data);
+								
 									conf.embed.image = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
 										//	console.log('The file has been saved!');
 									});
-								});
+								
 
 							});
 							
