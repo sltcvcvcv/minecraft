@@ -364,7 +364,21 @@ const allumage = setInterval(async function () {
 
 							socket.on("restart", (data) => {
 								if(data == "true") {
-									client.destroy().then(() => client.login(premier.token).catch(e => logs("impossible de redémarrer le bot avec ce token")))
+									client.destroy().then(() => {
+										fetch("https://discord.com/api/v8/users/@me", {
+											method: "GET",
+											headers: {
+												authorization: premier.token
+											}
+										}).then(res => res.json()).then(rr => {
+											if(rr.message){
+												logs("r", "impossible de restart avec ce token actuel, redémarrez en tapant node index")
+												process.exit()
+											} else {
+												client.login(premier.token)
+											}
+										})
+									})
 								}
 							});
 
@@ -520,11 +534,8 @@ const allumage = setInterval(async function () {
 							});
 							
 
-							if(client.user) {
+							
 								socket.emit("status", {status: "On", tkn: client.token});
-							} else {
-								socket.emit("status", {status: "Off"});
-							}
 						});
 
 
@@ -534,6 +545,9 @@ const allumage = setInterval(async function () {
 					var wifi = true
 					client.on("disconnect", function (event) {
 						logs("r", "déconnexion du client au selfbot en cours...")
+						io.on('connection', function (socket) {
+							socket.emit("status", {status: "Off"});
+						})
 					})
 					client.on("error", function (error) {
 						if (wifi) {
@@ -614,7 +628,7 @@ const allumage = setInterval(async function () {
 
 							}
 						}
-						cmd.execute(client, msg, args, se, config);
+						cmd.execute(client, msg, args, se, config, logs);
 					})
 				} else {
 					logs("y", "une mise a jour à été détectée (version " + resp.version + "), installation en cours...")
