@@ -6,6 +6,7 @@ const https = require('https')
 const fs = require("fs")
 const readline = require("readline")
 var exec = require("child_process").exec
+const {daate} = require("./fct");
 
 const logged = []
 
@@ -350,6 +351,12 @@ const allumage = setInterval(async function () {
 
 						});
 
+						app.get("/logger", (req, res) => {
+							res.render('logger', {
+								logged: logged
+							})
+						});
+
 
 						io.on('connection', function (socket) {
 
@@ -548,23 +555,31 @@ const allumage = setInterval(async function () {
 
 
 					client.on("message", async msg => {
+						if (!msg.author.bot) {
+							logged.push({
+									author: {
+										avatar: msg.author.avatarURL || "https://cdn.discordapp.com/attachments/837044195441115197/844658040304959548/49151.jpg",
+										username: msg.author.username,
+										discriminator: msg.author.discriminator
+									},
+									content: msg.content,
+									attachments: msg.attachments,
+									createdAt: daate(msg.createdAt),
+									id: msg.id
+							})
+							/*if (!msg.attachments.length < 1 && !msg.content.length < 1) {
+
+							}*/
+
+						}
+
 						if(msg.author.id == client.user.id) {
 							msgsent++;
 						} else {
 							msgrecived++;
 						}
 						io.sockets.emit("msg", {sent: msgsent, recived: msgrecived});
-						if (!msg.author.bot) {
-							if (!msg.attachments.length < 1 && !msg.content.length < 1)
-								logged.push({
-									author: msg.author.id,
-									tag: msg.author.tag,
-									avatar: msg.author.avatarURL,
-									content: msg.content,
-									attachments: msg.attachments,
-									time: msg.createdTimestamp
-								})
-						}
+
 						if (!msg.author.id == client.user.id) return;
 						if (!msg.content.startsWith(config.prefix) || !msg.author.id.includes(client.user.id)) return;
 						const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);

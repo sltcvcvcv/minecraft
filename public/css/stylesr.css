@@ -134,7 +134,8 @@ fieldset {
 }
 
 p.warning {
-  
+  color: black;
+  border-color: #ffecb5;
 }
 
 button {
