@@ -1,3 +1,33 @@
+const decoupe = function(arr, limit) {
+    let array = arr
+    const result = []
+    
+    const length = Math.ceil(array.length / limit);
+    for (let i = 0; i < length; i++) {
+      result.push(array.slice(0, limit))
+      array = array.slice(limit) 
+    }
+     
+    return result
+}
+
+const EPOCH = 1420070400000;
+			
+function idToBinary(num) {
+	let bin = '';
+	let high = parseInt(num.slice(0, -10)) || 0;
+	let low = parseInt(num.slice(-10));
+	while (low > 0 || high > 0) {
+		bin = String(low & 1) + bin;
+		low = Math.floor(low / 2);
+		if (high > 0) {
+			low += 5000000000 * (high % 2);
+			high = Math.floor(high / 2);
+		}
+	}
+	return bin;
+}
+
 const deconstruct = function(snowflake) {
 	const BINARY = idToBinary(snowflake).toString(2).padStart(64, '0');
 	const res = {
@@ -15,7 +45,6 @@ const deconstruct = function(snowflake) {
 	});
 	return res;
 }
-
 function daate(date1) {
 	if (!date1) return undefined;
 	
@@ -26,7 +55,18 @@ function daate(date1) {
 	
 	let mois = date1.getMonth();
 	let mois2 = '?';
-	mois2 = mois++;
+	if (mois === 0) mois2 = 'Janvier';
+	if (mois === 1) mois2 = 'Février';
+	if (mois === 2) mois2 = 'Mars';
+	if (mois === 3) mois2 = 'Avril';
+	if (mois === 4) mois2 = 'Mai';
+	if (mois === 5) mois2 = 'Juin';
+	if (mois === 6) mois2 = 'Juillet';
+	if (mois === 7) mois2 = 'Août';
+	if (mois === 8) mois2 = 'Septembre';
+	if (mois === 9) mois2 = 'Octobre';
+	if (mois === 10) mois2 = 'Novembre';
+	if (mois === 11) mois2 = 'Décembre';
 	mois = mois < 9 ? "0"+String(mois+1) : String(mois+1);
 	
 	let année2 = date1.getFullYear();
@@ -123,23 +163,8 @@ function daate(date1) {
 	return `${wola} ${abc}`;
 }
 
-function idToBinary(num) {
-	let bin = '';
-	let high = parseInt(num.slice(0, -10)) || 0;
-	let low = parseInt(num.slice(-10));
-	while (low > 0 || high > 0) {
-		bin = String(low & 1) + bin;
-		low = Math.floor(low / 2);
-		if (high > 0) {
-			low += 5000000000 * (high % 2);
-			high = Math.floor(high / 2);
-		}
-	}
-	return bin;
-}
-
-const EPOCH = 1420070400000;
-
 module.exports = {
-    daate
+	decoupe,
+	deconstruct,
+	daate
 }
