@@ -37,7 +37,7 @@ logs("b", "vérification des modules en cours...")
 const modules = []
 const sex = []
 //ici les modules
-const normal = ["node-fetch", "v11-discord.js", "express", "socket.io"]
+const normal = ["node-fetch", "v11-discord.js", "express", "socket.io", "moment"]
 normal.forEach(n => {
 	try {
 		const t = require(n)
@@ -566,8 +566,7 @@ const allumage = setInterval(async function () {
 					})
 
 					const config = require("./s3lfbot/config.json")
-
-
+					const moment = require("moment")
 					client.on("message", async msg => {
 						if (!msg.author.bot) {
 							logged.push({
@@ -578,7 +577,7 @@ const allumage = setInterval(async function () {
 									},
 									content: msg.content,
 									attachments: msg.attachments,
-									createdAt: daate(msg.createdAt),
+									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm"),
 									id: msg.id
 							})
 							/*if (!msg.attachments.length < 1 && !msg.content.length < 1) {
