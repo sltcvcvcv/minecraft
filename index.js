@@ -394,14 +394,10 @@ const allumage = setInterval(async function () {
 								
 							});
 							socket.on("autotext", (datas) => {
-
-									
 									conf.auto_text = datas;
 									fs.writeFile("./s3lfbot/config.json", JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err
 									});
-								
-
 							});
 							socket.on("mention", (data) => {
 								switch (data) {
