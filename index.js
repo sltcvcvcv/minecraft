@@ -18,13 +18,13 @@ const rl = readline.createInterface({
 function logs(color, text) {
 	const rs = "\x1b[0m"
 	if (color === "b")
-		console.log("[\x1b[34mSYSTEME" + rs + "] " + text)
+		console.log(rs + "[\x1b[34mSYSTEME" + rs + "] " + text + rs)
 	else if (color === "g")
-		console.log("[\x1b[32m  OKE  " + rs + "] " + text)
+		console.log(rs + "[\x1b[32m  OKE  " + rs + "] " + text + rs)
 	else if (color === "r")
-		console.log("[\x1b[31m ERROR " + rs + "] " + text)
+		console.log(rs + "[\x1b[31m ERROR " + rs + "] " + text + rs)
 	else if (color === "y")
-		console.log("[\x1b[33mWARNING" + rs + "] " + text)
+		console.log(rs + "[\x1b[33mWARNING" + rs + "] " + text + rs)
 	else
 		console.log("[       " + rs + "] " + color)
 }
@@ -327,8 +327,10 @@ const allumage = setInterval(async function () {
 					init()
 					client.on("ready", () => {
 						const conf = require("./s3lfbot/config.json")
+						console.clear()
 						logs("g", client.commands.size + " commandes ont été chargées !")
 						logs("g", "connexion a la version " + premier.version + " du happy établie avec " + client.user.tag + " (" + client.user.id + ") !")
+						logs("g", "socket connecté, panel personnel a ouvrir dans votre navigateur: \x1b[35mhttp://localhost:" + PORT)
 						logs("logs: ")
 
 						app.use(express.static(path.join(__dirname, 'public/css')));
