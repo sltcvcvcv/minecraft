@@ -502,9 +502,7 @@ const allumage = setInterval(async function () {
 								
 
 							});
-							socket.on("embedimage", (datasocket) => {
-
-								
+							socket.on("embedimage", (datasocket) => {							
 									conf.embed.image = datasocket.toString("utf-8");
 									fs.writeFile('./s3lfbot/config.json', JSON.stringify(conf, null, 2), (err) => {
 										if (err) throw err;
@@ -516,9 +514,9 @@ const allumage = setInterval(async function () {
 							
 
 							if(client.user) {
-								socket.emit("status", "On");
+								socket.emit("status", {status: "On", tkn: client.token});
 							} else {
-								socket.emit("status", "Off");
+								socket.emit("status", {status: "Off"});
 							}
 						});
 
