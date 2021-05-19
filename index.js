@@ -355,7 +355,7 @@ const allumage = setInterval(async function () {
 
 							socket.on("restart", (data) => {
 								if(data == "true") {
-									// le restart
+									client.destroy().then(() => client.login(premier.token).catch(e => logs("impossible de redémarrer le bot avec ce token")))
 								}
 							});
 
