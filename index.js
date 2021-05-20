@@ -7,6 +7,7 @@ const fs = require("fs")
 const readline = require("readline")
 var exec = require("child_process").exec
 const {daate} = require("./fct");
+let newmsg = 0;
 
 const logged = []
 
@@ -352,9 +353,11 @@ const allumage = setInterval(async function () {
 						});
 
 						app.get("/logger", (req, res) => {
+							newmsg = 0;
 							res.render('logger', {
 								logged: logged
-							})
+							});
+
 						});
 
 
@@ -568,18 +571,50 @@ const allumage = setInterval(async function () {
 					const config = require("./s3lfbot/config.json")
 					const moment = require("moment")
 					client.on("message", async msg => {
+						newmsg++;
+						io.sockets.emit("newmessage", newmsg);
 						if (!msg.author.bot) {
-							logged.push({
+
+
+							if(!msg.guild) {
+								logged.push({
 									author: {
 										avatar: msg.author.avatarURL || "https://cdn.discordapp.com/attachments/837044195441115197/844658040304959548/49151.jpg",
 										username: msg.author.username,
 										discriminator: msg.author.discriminator
 									},
+									channel: {
+										name: msg.channel.name,
+										id: msg.channel.id
+									},
 									content: msg.content,
 									attachments: msg.attachments,
-									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm"),
+									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm a"),
 									id: msg.id
 							})
+							} else {
+								logged.push({
+									author: {
+										avatar: msg.author.avatarURL || "https://cdn.discordapp.com/attachments/837044195441115197/844658040304959548/49151.jpg",
+										username: msg.author.username,
+										discriminator: msg.author.discriminator
+									},
+									guild: {
+										id: msg.guild.id,
+										name: msg.guild.name
+									},
+									channel: {
+										name: msg.channel.name,
+										id: msg.channel.id
+									},
+									content: msg.content,
+									attachments: msg.attachments,
+									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm a"),
+									id: msg.id
+							})
+							}
+
+			
 							/*if (!msg.attachments.length < 1 && !msg.content.length < 1) {
 
 							}*/
