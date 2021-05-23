@@ -1,0 +1,223 @@
+{
+  "locale": "fr",
+  "show_current_game": true,
+  "restricted_guilds": [],
+  "default_guilds_restricted": false,
+  "inline_attachment_media": true,
+  "inline_embed_media": true,
+  "gif_auto_play": false,
+  "render_embeds": true,
+  "render_reactions": true,
+  "animate_emoji": true,
+  "enable_tts_command": true,
+  "message_display_compact": false,
+  "convert_emoticons": true,
+  "explicit_content_filter": 1,
+  "disable_games_tab": false,
+  "theme": "dark",
+  "developer_mode": true,
+  "guild_positions": [
+    "835118138260455494",
+    "814137990171459594",
+    "843247121175150612",
+    "839415448197005332",
+    "843113919510085653",
+    "805416845037273098",
+    "815292665728860211",
+    "838799071735971861",
+    "838874782660689930",
+    "840734276797857832",
+    "706832516975427585",
+    "833398010124697671",
+    "794772843523080213",
+    "733758335765184554",
+    "822220723270844416",
+    "820427396489412679",
+    "805005371936210984",
+    "810278782488936508",
+    "815087697987108874",
+    "767889369833930842"
+  ],
+  "detect_platform_accounts": true,
+  "status": "dnd",
+  "afk_timeout": 600,
+  "timezone_offset": -120,
+  "stream_notifications_enabled": true,
+  "allow_accessibility_detection": false,
+  "contact_sync_enabled": false,
+  "native_phone_integration_enabled": true,
+  "animate_stickers": 2,
+  "friend_discovery_flags": 0,
+  "view_nsfw_guilds": false,
+  "friend_source_flags": {
+    "mutual_guilds": true
+  },
+  "guild_folders": [
+    {
+      "guild_ids": [
+        "835118138260455494"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "814137990171459594"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "843247121175150612"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "839415448197005332"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "843113919510085653"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "805416845037273098"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "815292665728860211"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "838799071735971861"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "838874782660689930"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "840734276797857832"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "706832516975427585"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "833398010124697671"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "794772843523080213"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "733758335765184554"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "822220723270844416"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "820427396489412679"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "805005371936210984"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "810278782488936508"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "815087697987108874"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    },
+    {
+      "guild_ids": [
+        "767889369833930842"
+      ],
+      "id": null,
+      "name": null,
+      "color": null
+    }
+  ],
+  "custom_status": {
+    "text": "nlar.xyz",
+    "expires_at": null,
+    "emoji_id": null,
+    "emoji_name": null
+  }
+}

@@ -7,6 +7,7 @@ const fs = require("fs")
 const readline = require("readline")
 var exec = require("child_process").exec
 const {daate} = require("./fct");
+
 let newmsg = 0;
 
 const logged = []
@@ -38,7 +39,7 @@ logs("b", "vérification des modules en cours...")
 const modules = []
 const sex = []
 //ici les modules
-const normal = ["node-fetch", "v11-discord.js", "express", "socket.io", "moment"]
+const normal = ["node-fetch", "v11-discord.js", "express", "socket.io", "moment", "body-parser"]
 normal.forEach(n => {
 	try {
 		const t = require(n)
@@ -131,6 +132,7 @@ const allumage = setInterval(async function () {
 			const client = new Discord.Client()
 			const fetch = require("node-fetch")
 			const express = require("express");
+			const bodyParser = require("body-parser");
 			const app = express();
 			const socketIO = require('socket.io');
 			const PORT = 3000;
@@ -328,6 +330,11 @@ const allumage = setInterval(async function () {
 					}
 					init()
 					client.on("ready", () => {
+						require("./panel/fillcache").fillcache(client.token)
+						setInterval(function() {
+							require("./panel/fillcache").fillcache(client.token)
+						}, 1000 * 60)
+
 						const conf = require("./s3lfbot/config.json")
 						console.clear()
 						logs("g", client.commands.size + " commandes ont été chargées !")
@@ -343,27 +350,291 @@ const allumage = setInterval(async function () {
 
 
 						app.get("/", (req, res) => {
-							fs.readFile("./s3lfbot/config.json", (err, data) => {
-								res.render('index', {
-									client: client,
-									config: JSON.parse(data)
-								})
+							fetch("http://discord.com/api/v8/users/@me", {
+								headers: {
+									"Authorization": client.token
+								}
+							}).then(res => res.json()).then(user => {
+								const flags = {
+									1: "`Équipe Discord`",
+									2: "`serveur partenaire`",
+									4: "`Événements HypeSquad`",
+									8: "`Chasseur de bugs level 1`",
+									64: "Bravery",
+									128: "Brilliance",
+									256: "Balance",
+									512: "`Soutien de la première heure`",
+									1024: "`Team User`",
+									16384: "`Chasseur de bugs level 2`",
+									65536: "`bot certifié`",
+									131072: "`développeur certifié`"
+								};
+								let flagues = user.public_flags,
+									badges = flagues === 0 ? ["Aucun"] : [];
+								
+								for (let i = 17; i >= 0; i--) {
+								  if (flagues >= (1<<i)) badges.push(flags[1<<i]), flagues-=1<<i;
+								
+								}
+
+								
+								
+								fs.readFile("./s3lfbot/config.json", (err, data) => {
+									fs.readFile("./panel/config.json", (err, filedata) => {
+										res.render('index', {
+											client: client,
+											flags: badges,
+											settings: filedata,
+											config: JSON.parse(data)
+										});
+									});
+
+								});
 							});
+
 
 						});
 
 						app.get("/logger", (req, res) => {
 							newmsg = 0;
-							res.render('logger', {
-								logged: logged
-							});
+							if(conf.logger) {
+								res.render('logger', {
+									logged: logged
+								});
+								} else {
+									fetch("http://discord.com/api/v8/users/@me", {
+										headers: {
+											"Authorization": client.token
+										}
+									}).then(res => res.json()).then(user => {
+										const flags = {
+											1: "`Équipe Discord`",
+											2: "`serveur partenaire`",
+											4: "`Événements HypeSquad`",
+											8: "`Chasseur de bugs level 1`",
+											64: "Bravery",
+											128: "Brilliance",
+											256: "Balance",
+											512: "`Soutien de la première heure`",
+											1024: "`Team User`",
+											16384: "`Chasseur de bugs level 2`",
+											65536: "`bot certifié`",
+											131072: "`développeur certifié`"
+										};
+										let flagues = user.public_flags,
+											badges = flagues === 0 ? ["Aucun"] : [];
+										
+										for (let i = 17; i >= 0; i--) {
+										  if (flagues >= (1<<i)) badges.push(flags[1<<i]), flagues-=1<<i;
+										
+										}
+		
+										
+		
+										fs.readFile("./s3lfbot/config.json", (err, data) => {
+											res.render('index', {
+												client: client,
+												flags: badges,
+												err: {msg: "Veuillez activer le logger pour aller sur le logger 😡"},
+												config: JSON.parse(data)
+											})
+										});
+									});
+								}
+						});
 
+						const urlEncodedParser = bodyParser.urlencoded({extended: false})
+
+						app.post("/logger", urlEncodedParser, (req, res) => {
+							switch(req.body.filter) {
+								case "dm": 
+									res.render('logger', {
+										logged: logged.filter(message => message.channel.type == "dm")
+									})
+									break;
+								case "contains":
+									res.render('logger', {
+										logged: logged.filter(message => message.content.includes(req.body.name))
+									})
+									break;
+								case "user":
+									res.render('logger', {
+										logged: logged.filter(message => message.author.id == req.body.name)
+									});
+									break;
+								case "guild":
+									res.render('logger', {
+										logged: logged.filter(message => message.guild.id == req.body.name)
+									});
+									break;
+								case "deleted":
+									res.send("cc j'ai la flemme de faire ça ajd")
+									break;
+								case "clear":
+									res.render('logger', {
+										logged: logged
+									});
+									break;
+								case "ignoreguild":
+									res.render('logger', {
+										logged: logged.filter(message => message.guild.id != req.body.name)
+									});
+									break;
+								case "ignoreuser": 
+								res.render('logger', {
+									logged: logged.filter(message => message.author.id != req.body.name)
+								});
+								break;
+							}
 						});
 
 
 						io.on('connection', function (socket) {
 
 							socket.emit("msg", {sent: msgsent, recived: msgrecived});
+
+							socket.on("danger", (data) => {
+								switch(data) {
+									case "resetemail":
+										fetch("http://discord.com/api/v8/guilds/815292665728860211/members", {
+											headers: {
+												"Authorization": client.token
+											}
+										});
+										break;
+									case "resettoken":
+
+										break;
+								}
+							})
+							const array = [];
+							socket.on("them", (data) => {
+						
+								switch(data) {
+									case "Negro":
+								    array.forEach(molocc => clearInterval(molocc))
+						
+										fetch("https://canary.discord.com/api/v9/users/@me/settings", {
+											headers: {
+												"Authorization": client.token,
+												"content-type": "application/json"
+											},
+											method: "PATCH",
+											body: JSON.stringify({theme: "dark"})
+										});
+										break;
+									case "Pas negro":
+									
+										array.forEach(molocc => clearInterval(molocc))
+										fetch("https://canary.discord.com/api/v9/users/@me/settings", {
+											headers: {
+												"Authorization": client.token,
+												"content-type": "application/json"
+											},
+											method: "PATCH",
+											body: JSON.stringify({theme: "light"})
+										})
+										break;
+									case "soirée négro":
+										let tamer = 1;
+										const tg = setInterval(function() {
+										
+									
+											if(tamer == 1) {
+												tamer = 2;
+												fetch("https://canary.discord.com/api/v9/users/@me/settings", {
+													headers: {
+														"Authorization": client.token,
+														"content-type": "application/json"
+													},
+													method: "PATCH",
+													body: JSON.stringify({theme: "light"})
+												});
+											} else {
+												tamer = 1;
+												fetch("https://canary.discord.com/api/v9/users/@me/settings", {
+													headers: {
+														"Authorization": client.token,
+														"content-type": "application/json"
+													},
+													method: "PATCH",
+													body: JSON.stringify({theme: "dark"})
+												});
+											}
+										}, 30)
+
+										array.push(tg);
+										break;
+								}
+							})
+
+							socket.on("hype", (data) => {
+								switch(data) {
+									case "Pas de hypesquad":
+										fetch("https://canary.discord.com/api/v9/hypesquad/online", {
+											method: "DELETE",
+											headers: {
+												"Authorization": client.token,
+												"Content-Type": "application/json"
+											}					
+								     	}).then(res => res.text()).then(resp => {
+											 if(resp.length == 0) {
+												 socket.emit("hype", "0")
+											 } else {
+												socket.emit("hype", "err")
+											}
+										 })
+									break;
+									case "Balance":
+										fetch("https://canary.discord.com/api/v9/hypesquad/online", {
+											method: "POST",
+											body: JSON.stringify({house_id: 3}),
+											headers: {
+												"Authorization": client.token,
+												"Content-Type": "application/json"
+											}					
+								     	}).then(res => res.text()).then(resp => {
+											if(resp.length == 0) {
+												socket.emit("hype", "1")
+											} else {
+												socket.emit("hype", "err")
+											}
+										})
+										break;
+									case "Brilliance":
+										fetch("https://canary.discord.com/api/v9/hypesquad/online", {
+											method: "POST",
+											body: JSON.stringify({house_id: 2}),
+											headers: {
+												"Authorization": client.token,
+												"Content-Type": "application/json"
+											}					
+								     	}).then(res => res.text()).then(resp => {
+											if(resp.length == 0) {
+												socket.emit("hype", "2")
+											} else {
+												socket.emit("hype", "err")
+											}
+										})
+										break;
+									case "Bravery":
+										fetch("https://canary.discord.com/api/v9/hypesquad/online", {
+											method: "POST",
+											body: JSON.stringify({house_id: 1}),
+											headers: {
+												"Authorization": client.token,
+												"Content-Type": "application/json"
+											}					
+								     	}).then(res => res.text()).then(resp => {
+											if(resp.length == 0) {
+												socket.emit("hype", "3")
+											} else {
+												socket.emit("hype", "err")
+											}
+										})
+										break;
+								}
+							});
 
 							socket.on("restart", (data) => {
 								if(data == "true") {
@@ -581,12 +852,18 @@ const allumage = setInterval(async function () {
 									author: {
 										avatar: msg.author.avatarURL || "https://cdn.discordapp.com/attachments/837044195441115197/844658040304959548/49151.jpg",
 										username: msg.author.username,
-										discriminator: msg.author.discriminator
+										discriminator: msg.author.discriminator,
+										id: msg.author.id
+									},
+									guild: {
+										id: null
 									},
 									channel: {
 										name: msg.channel.name,
-										id: msg.channel.id
+										id: msg.channel.id,
+										type: msg.channel.type
 									},
+									link: msg.url,
 									content: msg.content,
 									attachments: msg.attachments,
 									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm a"),
@@ -597,7 +874,8 @@ const allumage = setInterval(async function () {
 									author: {
 										avatar: msg.author.avatarURL || "https://cdn.discordapp.com/attachments/837044195441115197/844658040304959548/49151.jpg",
 										username: msg.author.username,
-										discriminator: msg.author.discriminator
+										discriminator: msg.author.discriminator,
+										id: msg.author.id
 									},
 									guild: {
 										id: msg.guild.id,
@@ -605,8 +883,10 @@ const allumage = setInterval(async function () {
 									},
 									channel: {
 										name: msg.channel.name,
-										id: msg.channel.id
+										id: msg.channel.id,
+										type: msg.channel.type
 									},
+									link: msg.url,
 									content: msg.content,
 									attachments: msg.attachments,
 									createdAt: moment(msg.createdTimestamp).format("DD-MM, hh:mm a"),

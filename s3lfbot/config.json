@@ -1,5 +1,5 @@
 {
-  "prefix": "//",
+  "prefix": "///",
   "embed": {
     "color": "",
     "title": "",
@@ -10,7 +10,7 @@
     "mode": true,
     "text": "slt "
   },
-  "claimer": false,
+  "claimer": true,
   "rpc": {
     "name": "ma riche présence",
     "type": "STREAMING",
@@ -45,5 +45,5 @@
   },
   "auto_text": "",
   "anti_mention": false,
-  "logger": false
+  "logger": true
 }

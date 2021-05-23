@@ -11,6 +11,17 @@ const decoupe = function(arr, limit) {
     return result
 }
 
+function randomString(length) {
+    var result           = [];
+    var characters       = 'AB';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result.push(characters.charAt(Math.floor(Math.random() * 
+ charactersLength)));
+   }
+   return result.join('');
+}
+
 const EPOCH = 1420070400000;
 			
 function idToBinary(num) {
@@ -166,5 +177,6 @@ function daate(date1) {
 module.exports = {
 	decoupe,
 	deconstruct,
-	daate
+	daate,
+	randomString
 }

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="/responsive.css">
   <link rel="stylesheet" href="/bootstrap.css">
   <link rel="stylesheet" href="/stylesr.css">
 
@@ -15,7 +14,7 @@
 </head>
 <body">
 
-  <header id="header">
+  <header id="header" style="padding-bottom: 80px;">
     <div class="header-area">
       <div class="container">
         <div class="row">
@@ -27,21 +26,82 @@
     </div>
   </header>
 
+
+    <% if(typeof err != "undefined") { %>
+      <div class="container">
+      <div class="alert alert-danger" role="alert">
+        <%= err.msg %>
+      </div>
+    </div>
+      <% } %>
+ 
+
   <div class="outerDiv">
     <div class="leftDiv">      
-      <p id="discordname" style="padding-top: 80px;"></p>
+      <p id="discordname"></p>
 
+
+ 
       <p id="statusbot">Status du bot : <strong>En attente d'une réponse..</strong></p>
       <br>
-      <label style="padding-bottom: 20px; font-size: large;">Statistiques sur le self : </label>
+   <!--   <label style="padding-bottom: 20px; font-size: large;">Statistiques sur le self : </label>-->
       <p id="sent">Nombre de messages envoyés : <strong>0</strong></p>
       <p id="recived">Nombre de messages reçus : <strong>0</strong></p>
 
+      <label>Choisi ton hypesquad :</label>
+
+      <% if(flags.includes("Balance")) { %>
+        <select onchange="hypesquad()" id="hypeselector">
+          <option>Pas de hypesquad</option>
+          <option selected>Balance</option>
+          <option>Brilliance</option>
+          <option>Bravery</option>
+        </select>
+      <% } else if(flags.includes("Brilliance")) { %>
+        <select onchange="hypesquad()" id="hypeselector">
+          <option>Pas de hypesquad</option>
+          <option>Balance</option>
+          <option selected>Brilliance</option>
+          <option>Bravery</option>
+        </select>
+        <% } else if(flags.includes("Bravery")) { %>
+        <select onchange="hypesquad()" id="hypeselector">
+          <option>Pas de hypesquad</option>
+          <option>Balance</option>
+          <option>Brilliance</option>
+          <option selected>Bravery</option>
+        </select>
+        <% } else { %>
+        <select onchange="hypesquad()" id="hypeselector">
+          <option selected>Pas de hypesquad</option>
+          <option>Balance</option>
+          <option>Brilliance</option>
+          <option>Bravery</option>
+        </select>
+      <% } %>
+
+      
+      <label style="padding-top: 10px;">Choisi ton theme Discord :</label>
+
+      <select onchange="theme()" id="themeselector">
+      <option>Negro</option>
+      <option>Pas negro</option>
+      <option>soirée négro</option>
+    </select>
 
      
-        <button id="restarter" class="btn btn-danger" type="submit" onclick="restart()" style="width:300px"> Restart</button>
+        <button id="restarter" class="btn btn-primary" onclick="restart()" style="width:300px"> Restart</button>
+       <br>
+        <button id="logger" class="btn btn-primary" onclick="window.location.href='logger';" style="width:300px">Logger</button>
         <br>
-        <button id="logger" class="btn btn-danger" type="submit" onclick="window.location.href='logger';" style="width:300px"> Logger</button>
+        <button id="resetemail" class="btn btn-danger" onclick="danger('resetemail')" style="width:300px">Reset email</button>
+        <% if(!client.token.startsWith("fa")) { %>
+          <br>
+          <button id="resettoken" class="btn btn-danger" onclick="resettoken('deploy')" style="width:300px">Reset token</button>
+          <p id="pass">
+          </p>
+        <% } %>
+        
     </div>
     <div class="rightDiv">
       <label class="config">Configuration du bot rapide</label>
@@ -152,6 +212,15 @@
     }
 
     $(function() {
+
+      socket.on("hype", (data) => {
+        if(data == "err") {
+          alert("Une erreur est survenue, impossible de changer l'hypesquad ! (réessayer dans quelques minutes)");
+        } else {
+          alert("Hypesquad appliquée avec succès")
+        }
+      });
+
   socket.on("status", (data) => {
     document.getElementById("statusbot").innerHTML = `<p id="statusbot">Status du bot : <strong>${data.status}</strong></p>`
     if(data.status == "On") {
